@@ -8,12 +8,12 @@ if (isset($_POST['submit'])) {
     try {
         $pdo = new PDO($dsn, $user, $password);
 
-        // 動的に変わる値をプレースホルダに置き換えたINSERT文をあらかじめ用意する
+        // 動的に変わる値をプレースホルダに置き換えたINSERT文（データを追加）をあらかじめ用意する　
         $sql_insert = '
             INSERT INTO books (book_code, book_name, price, stock_quantity, genre_code)
             VALUES (:book_code, :book_name, :price, :stock_quantity, :genre_code)
         ';
-        $stmt_insert = $pdo->prepare($sql_insert);
+        $stmt_insert = $pdo->prepare($sql_insert); // ★★★->アロー演算子　プロパティやメソッドにアクセスするため　何のためにするのか？
 
         // bindValue()メソッドを使って実際の値をプレースホルダにバインドする（割り当てる）
         $stmt_insert->bindValue(':book_code', $_POST['book_code'], PDO::PARAM_INT);
@@ -49,6 +49,7 @@ try {
 
     // SQL文の実行結果を配列で取得する
     // 補足：PDO::FETCH_COLUMNは1つのカラムの値を1次元配列（多次元ではない普通の配列）で取得する設定である
+    // ★★★　なんで今回１次元配列なのか。前との違いは何か。？
     $genre_codes = $stmt_select->fetchAll(PDO::FETCH_COLUMN);
 } catch (PDOException $e) {
     exit($e->getMessage());
@@ -85,7 +86,7 @@ try {
             <form action="create.php" method="post" class="registration-form">
                 <div>
                     <label for="book_code">書籍コード</label>
-                    <input type="number" name="book_code" min="0" max="100000000" required>
+                    <input type="number" name="book_code" min="0" max="100000000" required> ? <!-- required必須 -->
 
                     <label for="book_name">書籍名</label>
                     <input type="text" name="book_name" maxlength="50" required>
@@ -108,6 +109,10 @@ try {
                     </select>
                 </div>
                 <button type="submit" class="submit-btn" name="submit" value="create">登録</button>
+                <!-- type="submit"とはフォーム入力を送信するサブミットボタン（初期値）-->
+                <!-- class="submit-btn"とはcssでひもづける-->
+                <!-- name="submit"とはフォームデータの一部としてこのボタンのvalueとの組み合わせで送信される　-->
+                <!-- value="create"とはフォームのデータと一緒に送信される際に、ボタンのnameに結び付けられる値を定義する。フォームを送信する際にサーバーに引数として渡される）-->
             </form>
         </article>
     </main>

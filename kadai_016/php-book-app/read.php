@@ -4,17 +4,17 @@ $user = 'root';
 $password = '';
 
 try {
-    $pdo = new PDO($dsn, $user, $password);
+    $pdo = new PDO($dsn, $user, $password); // インスタンス化　一度変数に代入してからしてる
 
     // orderパラメータの値が存在すれば（並び替えボタンを押したとき）、その値を変数$orderに代入する
-    if (isset($_GET['order'])) {
+    if (isset($_GET['order'])) {  // ★★★　orderはどこから出てきたのか？  パラメータとはURLの末尾に付け加えられた変数（文字列）のこと//
         $order = $_GET['order'];
     } else {
         $order = NULL;
     }
 
     // keywordパラメータの値が存在すれば（書籍名を検索したとき）、その値を変数$keywordに代入する    
-    if (isset($_GET['keyword'])) {
+    if (isset($_GET['keyword'])) { // ★★★　keywordはどこから出てきたのか？ //
         $keyword = $_GET['keyword'];
     } else {
         $keyword = NULL;
@@ -27,14 +27,14 @@ try {
         $sql_select = 'SELECT * FROM books WHERE book_name LIKE :keyword ORDER BY updated_at ASC';
     }
 
-    // SQL文を用意する
+    // ★★★　SQL文を用意する　何のためにいるのか？　動的prepare //
     $stmt_select = $pdo->prepare($sql_select);
 
     // SQLのLIKE句で使うため、変数$keyword（検索ワード）の前後を%で囲む（部分一致）
     // 補足：partial match＝部分一致
     $partial_match = "%{$keyword}%";
 
-    // bindValue()メソッドを使って実際の値をプレースホルダにバインドする（割り当てる）
+    // ★★★　bindValue()メソッドを使って実際の値($partial_match)をプレースホルダ(:keyword)にバインドする（割り当てる）何のためにするのか？//
     $stmt_select->bindValue(':keyword', $partial_match, PDO::PARAM_STR);
 
     // SQL文を実行する
@@ -79,6 +79,7 @@ try {
             ?>
             <div class="books-ui">
                 <div>
+                     <!-- ★★★　イラストがなぜ出るのか？read.php?order=desc&keyword=<?= $keyword ?>がよくわからない？ -->
                     <a href="read.php?order=desc&keyword=<?= $keyword ?>">
                         <img src="images/desc.png" alt="降順に並び替え" class="sort-img">
                     </a>

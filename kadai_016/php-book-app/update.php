@@ -68,7 +68,7 @@ if (isset($_GET['id'])) {
             exit('idパラメータの値が不正です。');
         }
 
-        // vendorsテーブルからvendor_codeカラムのデータを取得するためのSQL文を変数$sql_select_vendor_codesに代入する
+        // genresテーブルからgenre_codeカラムのデータを取得するためのSQL文を変数$sql_select_genre_codesに代入する
         $sql_select_genre_codes = 'SELECT genre_code FROM genres';
 
         // SQL文を実行する
@@ -135,6 +135,7 @@ if (isset($_GET['id'])) {
                         foreach ($genre_codes as $genre_code) {
                             // もし変数$genre_codeが商品の仕入先コードの値と一致していれば、selected属性をつけて初期値にする
                             if ($genre_code === $book['genre_code']) {
+                                // ★★★selected属性をつけて初期値にするとはどういこうことか？<option value='{$genre_code}' selected>{$genre_code}</option>
                                 echo "<option value='{$genre_code}' selected>{$genre_code}</option>";
                             } else {
                                 echo "<option value='{$genre_code}'>{$genre_code}</option>";

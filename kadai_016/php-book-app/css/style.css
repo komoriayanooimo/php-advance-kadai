@@ -17,18 +17,18 @@ nav {
 }
 
 a,
-button {
+button { /*  ★★★　どこから来たのか？*/
   transition: 0.3s;
 }
 
-nav a {
+nav a { /*  ★★★　どこから来たのか？*/
   margin-left: 0.75rem;
   color: #fff;
   text-decoration: none;
 }
 
 a:hover,
-button:hover {
+button:hover { /* ★★★　どこから来たのか？*/
   opacity: 0.8;
 }
 
@@ -147,7 +147,7 @@ footer {
   border-bottom: solid 1px #d9d9d9;
 }
 
-.books-table tr:first-child {
+.books-table tr:first-child { /* ★★★　first-childどこから出てきたのか */
   border-bottom: solid 3px #d9d9d9;
 }
 
